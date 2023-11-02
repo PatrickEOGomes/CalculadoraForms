@@ -8,12 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace CalculadoraForms
 {
+    
+
+    
     public partial class Form1 : Form
     {
+        //tratando duplicidade de operador;
+        string duplicidade = " ";
+    
+
+        DataTable dt = new DataTable();
+
         int numero1;
         string ultimoOp;
+       
         public Form1()
         {
             InitializeComponent();
@@ -27,10 +39,16 @@ namespace CalculadoraForms
         {
             // Obter o botão que está chamando o evento
             var botao = (Button)sender;
-            numero1 = int.Parse(txbTela.Text);
-            txbTela.Clear();
-            txbAux.Text = numero1.ToString() + botao.Text;
-            ultimoOp = botao.Text;
+             string tratamento = botao.Text.ToString();
+         
+ if(tratamento == "÷" || tratamento == "x" || tratamento == "+" || tratamento == "-")
+            {
+                tratamento = "";
+            }
+            else
+            {
+                txbTela.Text += tratamento;
+            }
 
         }
         private void Numero_Click(object sender, EventArgs e)
@@ -38,17 +56,14 @@ namespace CalculadoraForms
             // Obter o botão que está chamando o evento
             var botao = (Button)sender;
             txbTela.Text += botao.Text;
+            
         }
 
         private void btnIgual_Click(object sender, EventArgs e)
         {
-            switch (ultimoOp)
-            {
-                case "+":
-                    txbAux.Clear();
-                    txbTela.Text = (numero1 + int.Parse(txbTela.Text)).ToString();
-                    break;
-            }
+         string tratada = txbTela.Text.Replace("x","*").Replace("÷", "/");
+            var v = dt.Compute(tratada," ");
+            txbTela.Text = v .ToString();
         }
     }
 }

@@ -39,16 +39,30 @@ namespace CalculadoraForms
         {
             // Obter o botão que está chamando o evento
             var botao = (Button)sender;
-             string tratamento = botao.Text.ToString();
-         
- if(tratamento == "÷" || tratamento == "x" || tratamento == "+" || tratamento == "-")
+            int verificacao = 0;
+             string confirmacao = txbTela.Text;
+           var confirmacao2= confirmacao.ToList();
+           ;
+            int i = confirmacao.Count();
+            if (i > 0)
             {
-                tratamento = "";
-            }
-            else
-            {
-                txbTela.Text += tratamento;
-            }
+                string tratamento = confirmacao2[confirmacao2.Count - 1].ToString();
+                if (tratamento == "÷" || tratamento == "x" || tratamento == "+" || tratamento == "-")
+                {
+                    verificacao += 1;
+                }
+                else
+                {
+                    if (verificacao <= 1)
+                    {
+                        txbTela.Text += botao.Text;
+                    }
+
+                }
+
+            }  
+                    
+                
 
         }
         private void Numero_Click(object sender, EventArgs e)
@@ -61,9 +75,21 @@ namespace CalculadoraForms
 
         private void btnIgual_Click(object sender, EventArgs e)
         {
-         string tratada = txbTela.Text.Replace("x","*").Replace("÷", "/");
-            var v = dt.Compute(tratada," ");
-            txbTela.Text = v .ToString();
+            string confirmacao = txbTela.Text;
+            var confirmacao2 = confirmacao.ToList();
+            if (txbTela.Text != "")
+            {
+                string tratamento = confirmacao2[confirmacao2.Count - 1].ToString();
+
+                if (tratamento != "÷" && tratamento != "x" && tratamento != "+" && tratamento != "-")
+                {
+                    string tratada = txbTela.Text.Replace("x", "*").Replace("÷", "/");
+                    var v = dt.Compute(tratada, " ");
+                    txbTela.Text = v.ToString();
+
+                }
+            }
+            
         }
     }
 }
